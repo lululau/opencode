@@ -15,6 +15,7 @@ const (
 	O3           ModelID = "o3"
 	O3Mini       ModelID = "o3-mini"
 	O4Mini       ModelID = "o4-mini"
+	QwenPlus     ModelID = "qwen-plus"
 )
 
 var OpenAIModels = map[ModelID]Model{
@@ -176,6 +177,19 @@ var OpenAIModels = map[ModelID]Model{
 		ContextWindow:       128_000,
 		DefaultMaxTokens:    50000,
 		CanReason:           true,
+		SupportsAttachments: true,
+	},
+	QwenPlus: {
+		ID:                  QwenPlus,
+		Name:                "Qwen Plus",
+		Provider:            ProviderOpenAI,
+		APIModel:            "qwen-plus",
+		CostPer1MIn:         2.00,
+		CostPer1MInCached:   0.50,
+		CostPer1MOutCached:  0.0,
+		CostPer1MOut:        8.00,
+		ContextWindow:       1_000_000,
+		DefaultMaxTokens:    8000,
 		SupportsAttachments: true,
 	},
 }

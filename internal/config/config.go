@@ -52,6 +52,7 @@ type Agent struct {
 // Provider defines configuration for an LLM provider.
 type Provider struct {
 	APIKey   string `json:"apiKey"`
+	BaseURL  string `json:"baseURL,omitempty"`
 	Disabled bool   `json:"disabled"`
 }
 

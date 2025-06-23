@@ -163,7 +163,11 @@ func (o *openaiClient) preparedParams(messages []openai.ChatCompletionMessagePar
 	params := openai.ChatCompletionNewParams{
 		Model:    openai.ChatModel(o.providerOptions.model.APIModel),
 		Messages: messages,
-		Tools:    tools,
+	}
+
+	// Only set Tools if there are any tools to avoid sending empty array
+	if len(tools) > 0 {
+		params.Tools = tools
 	}
 
 	if o.providerOptions.model.CanReason == true {

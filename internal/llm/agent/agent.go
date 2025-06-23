@@ -715,7 +715,20 @@ func createAgentProvider(agentName config.AgentName) (provider.Provider, error) 
 		provider.WithSystemMessage(prompt.GetAgentPrompt(agentName, model.Provider)),
 		provider.WithMaxTokens(maxTokens),
 	}
-	if model.Provider == models.ProviderOpenAI || model.Provider == models.ProviderLocal && model.CanReason {
+
+	// Handle OpenAI provider options (baseURL and reasoning effort)
+	if model.Provider == models.ProviderOpenAI {
+		var openaiOpts []provider.OpenAIOption
+		if providerCfg.BaseURL != "" {
+			openaiOpts = append(openaiOpts, provider.WithOpenAIBaseURL(providerCfg.BaseURL))
+		}
+		if model.CanReason {
+			openaiOpts = append(openaiOpts, provider.WithReasoningEffort(agentConfig.ReasoningEffort))
+		}
+		if len(openaiOpts) > 0 {
+			opts = append(opts, provider.WithOpenAIOptions(openaiOpts...))
+		}
+	} else if model.Provider == models.ProviderLocal && model.CanReason {
 		opts = append(
 			opts,
 			provider.WithOpenAIOptions(

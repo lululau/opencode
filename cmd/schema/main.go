@@ -181,6 +181,10 @@ func generateSchema() map[string]any {
 					"type":        "string",
 					"description": "API key for the provider",
 				},
+				"baseURL": map[string]any{
+					"type":        "string",
+					"description": "Custom base URL for the provider API",
+				},
 				"disabled": map[string]any{
 					"type":        "boolean",
 					"description": "Whether the provider is disabled",

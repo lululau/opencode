@@ -140,6 +140,7 @@ This is useful if you want to use a different shell than your default system she
   "providers": {
     "openai": {
       "apiKey": "your-api-key",
+      "baseURL": "https://api.openai.com/v1",
       "disabled": false
     },
     "anthropic": {
@@ -205,6 +206,7 @@ OpenCode supports a variety of AI models from different providers:
 - O1 family (o1, o1-pro, o1-mini)
 - O3 family (o3, o3-mini)
 - O4 Mini
+- Qwen Plus (qwen-plus)
 
 ### Anthropic
 
@@ -592,6 +594,31 @@ This will cause OpenCode to load and use the models from the specified endpoint.
 ```bash
 LOCAL_ENDPOINT=http://localhost:1235/v1
 ```
+
+### Configuring a custom OpenAI baseURL
+
+For OpenAI-compatible APIs, you can also configure a custom baseURL directly in the configuration file:
+
+```json
+{
+  "providers": {
+    "openai": {
+      "apiKey": "your-api-key",
+      "baseURL": "http://localhost:1234/v1"
+    }
+  },
+  "agents": {
+    "coder": {
+      "model": "gpt-4.1"
+    }
+  }
+}
+```
+
+This is particularly useful for:
+- Self-hosted OpenAI-compatible models (like Ollama, LM Studio, etc.)
+- Proxied OpenAI API endpoints
+- Custom OpenAI API implementations
 
 ### Configuring a self-hosted model
 

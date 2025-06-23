@@ -1,0 +1,36 @@
+{
+  "data": {
+    "directory": ".opencode"
+  },
+  "providers": {
+    "openai": {
+      "apiKey": "your-openai-api-key",
+      "baseURL": "https://dashscope.aliyuncs.com/compatible-mode/v1",
+      "disabled": false
+    },
+    "anthropic": {
+      "apiKey": "your-anthropic-api-key",
+      "disabled": true
+    }
+  },
+  "agents": {
+    "coder": {
+      "model": "qwen-plus",
+      "maxTokens": 5000
+    },
+    "task": {
+      "model": "qwen-plus",
+      "maxTokens": 5000
+    },
+    "title": {
+      "model": "qwen-plus",
+      "maxTokens": 80
+    }
+  },
+  "shell": {
+    "path": "/bin/bash",
+    "args": ["-l"]
+  },
+  "debug": false,
+  "autoCompact": true
+} 

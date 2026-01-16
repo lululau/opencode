@@ -753,7 +753,7 @@ export default function Layout(props: ParentProps) {
         id: "project.open",
         title: "Open project",
         category: "Project",
-        keybind: "mod+o",
+        keybind: "mod+p",
         onSelect: () => chooseProject(),
       },
       {
@@ -772,14 +772,14 @@ export default function Layout(props: ParentProps) {
         id: "session.previous",
         title: "Previous session",
         category: "Session",
-        keybind: "alt+arrowup",
+        keybind: "alt+arrowup,mod+shift+k",
         onSelect: () => navigateSessionByOffset(-1),
       },
       {
         id: "session.next",
         title: "Next session",
         category: "Session",
-        keybind: "alt+arrowdown",
+        keybind: "alt+arrowdown,mod+shift+j",
         onSelect: () => navigateSessionByOffset(1),
       },
       {

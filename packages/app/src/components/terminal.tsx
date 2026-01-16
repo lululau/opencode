@@ -111,8 +111,10 @@ export const Terminal = (props: TerminalProps) => {
     const t = new mod.Terminal({
       cursorBlink: true,
       cursorStyle: "bar",
-      fontSize: 14,
-      fontFamily: "IBM Plex Mono, monospace",
+      // fontSize: 14,
+      fontSize: 13,
+      // fontFamily: "IBM Plex Mono, monospace",
+      fontFamily: "JetBrainsMono Nerd Font, monospace",
       allowTransparency: true,
       theme: terminalColors(),
       scrollback: 10_000,
@@ -162,7 +164,7 @@ export const Terminal = (props: TerminalProps) => {
       }
 
       // allow for ctrl-` to toggle terminal in parent
-      if (event.ctrlKey && key === "`") {
+      if (event.metaKey && key === "'") {
         return true
       }
 

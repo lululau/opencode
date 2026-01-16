@@ -159,7 +159,7 @@ export const { use: useCommand, provider: CommandProvider } = createSimpleContex
     const handleKeyDown = (event: KeyboardEvent) => {
       if (suspended()) return
 
-      const paletteKeybinds = parseKeybind("mod+shift+p")
+      const paletteKeybinds = parseKeybind("mod+shift+p,mod+shift+x")
       if (matchKeybind(paletteKeybinds, event)) {
         event.preventDefault()
         showPalette()

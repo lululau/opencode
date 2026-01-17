@@ -286,6 +286,12 @@ export const Terminal = (props: TerminalProps) => {
     }
 
     ws?.close()
+
+  // FIX: Disconnect FitAddon's ResizeObserver before disposing terminal
+    if (fitAddon && (fitAddon as any).dispose) {
+      (fitAddon as any).dispose()
+    }
+
     t?.dispose()
   })
 

@@ -908,7 +908,9 @@ export const PromptInput: Component<PromptInputProps> = (props) => {
       return
     }
 
-    if (store.popover && (event.key === "ArrowUp" || event.key === "ArrowDown" || event.key === "Enter")) {
+    if (store.popover && (event.key === "ArrowUp" || event.key === "ArrowDown" || event.key === "Enter"
+      || (event.ctrlKey && event.key === "p") || (event.ctrlKey && event.key === "n") || event.key === "Tab"
+    )) {
       if (store.popover === "at") {
         atOnKeyDown(event)
       } else {
@@ -933,8 +935,8 @@ export const PromptInput: Component<PromptInputProps> = (props) => {
       return
     }
 
-    if (event.key === "ArrowUp" || event.key === "ArrowDown") {
-      if (event.altKey || event.ctrlKey || event.metaKey) return
+    if (event.key === "ArrowUp" || event.key === "ArrowDown" || (event.ctrlKey && event.key === "p") || (event.ctrlKey && event.key === "n")) {
+      if (event.altKey || (event.ctrlKey && event.key !== "p" && event.key !== "n") || event.metaKey) return
       const { collapsed } = getCaretState()
       if (!collapsed) return
 
@@ -952,7 +954,7 @@ export const PromptInput: Component<PromptInputProps> = (props) => {
       const allowUp = isEmpty || atStart || (!hasNewlines && !inHistory) || (inHistory && atEnd)
       const allowDown = isEmpty || atEnd || (!hasNewlines && !inHistory) || (inHistory && atStart)
 
-      if (event.key === "ArrowUp") {
+      if (event.key === "ArrowUp" || (event.ctrlKey && event.key === "p")) {
         if (!allowUp) return
         if (navigateHistory("up")) {
           event.preventDefault()

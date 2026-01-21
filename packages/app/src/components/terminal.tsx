@@ -172,7 +172,8 @@ export const Terminal = (props: TerminalProps) => {
       }
 
       // allow for ctrl-` to toggle terminal in parent
-      if (event.ctrlKey && key === "`") {
+      // if (event.metaKey && key === "'") {
+      if (event.metaKey) {
         return true
       }
 

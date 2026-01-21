@@ -77,11 +77,25 @@ export function useFilteredList<T>(props: FilteredListProps<T>) {
   }
 
   const onKeyDown = (event: KeyboardEvent) => {
-    if (event.key === "Enter" && !event.isComposing) {
+    if (event.key === "Enter" || event.key === "Tab") {
       event.preventDefault()
       const selectedIndex = flat().findIndex((x) => props.key(x) === list.active())
       const selected = flat()[selectedIndex]
       if (selected) props.onSelect?.(selected, selectedIndex)
+    } else if (event.ctrlKey && event.key === "p") {
+      // Handle Ctrl+P as up arrow
+      event.preventDefault()
+      const currentIndex = flat().findIndex((x) => props.key(x) === list.active())
+      const prevIndex = currentIndex > 0 ? currentIndex - 1 : flat().length - 1
+      const prevItem = flat()[prevIndex]
+      if (prevItem) list.setActive(props.key(prevItem))
+    } else if (event.ctrlKey && event.key === "n") {
+      // Handle Ctrl+N as down arrow
+      event.preventDefault()
+      const currentIndex = flat().findIndex((x) => props.key(x) === list.active())
+      const nextIndex = currentIndex < flat().length - 1 ? currentIndex + 1 : 0
+      const nextItem = flat()[nextIndex]
+      if (nextItem) list.setActive(props.key(nextItem))
     } else {
       // Skip list navigation for text editing shortcuts (e.g., Option+Arrow, Option+Backspace on macOS)
       if (event.altKey || event.metaKey) return

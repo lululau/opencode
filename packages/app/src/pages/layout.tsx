@@ -71,6 +71,8 @@ import { Titlebar } from "@/components/titlebar"
 import { useServer } from "@/context/server"
 import { useLanguage, type Locale } from "@/context/language"
 
+const IS_MAC = typeof navigator === "object" && /(Mac|iPod|iPhone|iPad)/.test(navigator.platform)
+
 export default function Layout(props: ParentProps) {
   const [store, setStore, , ready] = persisted(
     Persist.global("layout.page", ["layout.page.v1"]),
@@ -86,6 +88,9 @@ export default function Layout(props: ParentProps) {
   )
 
   const pageReady = createMemo(() => ready())
+
+  // Track recent projects for mod+\ switching (most recent first, max 2)
+  const [recentProjects, setRecentProjects] = createSignal<string[]>([])
 
   let scrollContainerRef: HTMLDivElement | undefined
   const xlQuery = window.matchMedia("(min-width: 1280px)")
@@ -999,10 +1004,51 @@ export default function Layout(props: ParentProps) {
   function navigateToProject(directory: string | undefined) {
     if (!directory) return
     server.projects.touch(directory)
+    setRecentProjects((prev) => {
+      if (prev[0] === directory) return prev
+      return [directory, prev[0]].filter(Boolean) as string[]
+    })
     const lastSession = store.lastSession[directory]
     navigate(`/${base64Encode(directory)}${lastSession ? `/session/${lastSession}` : ""}`)
     layout.mobileSidebar.hide()
   }
+
+  onMount(() => {
+    function handleProjectShortcut(event: KeyboardEvent) {
+      const isMod = IS_MAC ? event.metaKey : event.ctrlKey
+      if (!isMod || event.shiftKey || event.altKey) return
+
+      const key = event.key
+
+      if (key === "\\") {
+        const recent = recentProjects()
+        if (recent.length < 2) return
+        event.preventDefault()
+        navigateToProject(recent[1])
+        return
+      }
+
+      if (!/^[0-9]$/.test(key)) return
+
+      const projects = layout.projects.list()
+      if (projects.length === 0) return
+
+      event.preventDefault()
+
+      const num = parseInt(key, 10)
+      if (num === 0) {
+        navigateToProject(projects[projects.length - 1].worktree)
+      } else {
+        const index = num - 1
+        if (index < projects.length) {
+          navigateToProject(projects[index].worktree)
+        }
+      }
+    }
+
+    document.addEventListener("keydown", handleProjectShortcut)
+    onCleanup(() => document.removeEventListener("keydown", handleProjectShortcut))
+  })
 
   function navigateToSession(session: Session | undefined) {
     if (!session) return

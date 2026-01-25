@@ -604,8 +604,8 @@ export default function Page() {
       id: "review.toggle",
       title: "Toggle review",
       description: "",
-      category: "View",
-      keybind: "mod+shift+r",
+      category: language.t("command.category.view"),
+      keybind: "mod+shift+l",
       onSelect: () => view().reviewPanel.toggle(),
     },
     {
@@ -750,9 +750,10 @@ export default function Page() {
     },
     {
       id: "session.redo",
-      title: "Redo",
-      description: "Redo the last undone message",
-      category: "Session",
+      title: language.t("command.session.redo"),
+      description: language.t("command.session.redo.description"),
+      category: language.t("command.category.session"),
+      keybind: "mod+shift+r",
       slash: "redo",
       disabled: !params.id || !info()?.revert?.messageID,
       onSelect: async () => {

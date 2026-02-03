@@ -744,7 +744,7 @@ export default function Page() {
       title: language.t("command.review.toggle"),
       description: "",
       category: language.t("command.category.view"),
-      keybind: "mod+shift+r",
+      keybind: "mod+shift+l",
       onSelect: () => layout.fileTree.toggle(),
     },
     {
@@ -892,6 +892,7 @@ export default function Page() {
       title: language.t("command.session.redo"),
       description: language.t("command.session.redo.description"),
       category: language.t("command.category.session"),
+      keybind: "mod+shift+r",
       slash: "redo",
       disabled: !params.id || !info()?.revert?.messageID,
       onSelect: async () => {

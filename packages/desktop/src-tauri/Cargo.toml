@@ -69,3 +69,5 @@ specta-typescript = { git = "https://github.com/specta-rs/specta", rev = "591a5f
 tauri-specta = { git = "https://github.com/specta-rs/tauri-specta", rev = "6720b2848eff9a3e40af54c48d65f6d56b640c0b" }
 # TODO: https://github.com/tauri-apps/tauri/pull/14812
 tauri  = { git = "https://github.com/tauri-apps/tauri", rev = "4d5d78daf636feaac20c5bc48a6071491c4291ee" }
+[target.'cfg(not(any(target_os = "android", target_os = "ios")))'.dependencies]
+tauri-plugin-cli = "2"

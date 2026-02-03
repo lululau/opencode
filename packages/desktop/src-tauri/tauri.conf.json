@@ -1,12 +1,9 @@
 {
   "$schema": "https://schema.tauri.app/config/2",
-  "productName": "OpenCode Dev",
-  "identifier": "ai.opencode.desktop.dev",
-  "mainBinaryName": "OpenCode",
+  "productName": "OpenCode",
+  "identifier": "ai.opencode.desktop",
   "version": "../package.json",
   "build": {
-    "beforeDevCommand": "bun run dev",
-    "devUrl": "http://localhost:1420",
     "beforeBuildCommand": "bun run build",
     "frontendDist": "../dist"
   },
@@ -24,15 +21,9 @@
     "macOSPrivateApi": true
   },
   "bundle": {
-    "icon": [
-      "icons/dev/32x32.png",
-      "icons/dev/128x128.png",
-      "icons/dev/128x128@2x.png",
-      "icons/dev/icon.icns",
-      "icons/dev/icon.ico"
-    ],
     "active": true,
     "targets": ["deb", "rpm", "dmg", "nsis", "app"],
+    "createUpdaterArtifacts": true,
     "externalBin": ["sidecars/opencode-cli"],
     "linux": {
       "rpm": {
@@ -44,12 +35,30 @@
     "macOS": {
       "entitlements": "./entitlements.plist"
     },
+    "icon": [
+      "icons/prod/32x32.png",
+      "icons/prod/128x128.png",
+      "icons/prod/128x128@2x.png",
+      "icons/prod/icon.icns",
+      "icons/prod/icon.ico"
+    ],
     "windows": {
       "nsis": {
-        "installerIcon": "icons/dev/icon.ico",
-        "headerImage": "assets/nsis-header.bmp",
-        "sidebarImage": "assets/nsis-sidebar.bmp"
+        "installerIcon": "icons/prod/icon.ico"
       }
+    },
+    "linux": {
+      "deb": {
+        "files": {
+          "/usr/share/metainfo/ai.opencode.opencode.metainfo.xml": "release/appstream.metainfo.xml"
+        }
+      }
+    }
+  },
+  "plugins": {
+    "updater": {
+      "pubkey": "dW50cnVzdGVkIGNvbW1lbnQ6IG1pbmlzaWduIHB1YmxpYyBrZXk6IEYwMDM5Nzg5OUMzOUExMDQKUldRRW9UbWNpWmNEOENYT01CV0lhOXR1UFhpaXJsK1Z3aU9lZnNtNzE0TDROWVMwVW9XQnFOelkK",
+      "endpoints": ["https://github.com/anomalyco/opencode/releases/latest/download/latest.json"]
     }
   },
   "plugins": {

@@ -9,6 +9,7 @@ import {
   ParentProps,
   Show,
   untrack,
+  createSignal,
   type JSX,
 } from "solid-js"
 import { A, useNavigate, useParams } from "@solidjs/router"

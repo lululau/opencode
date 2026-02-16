@@ -5,14 +5,14 @@ import { createFocusSignal } from "@solid-primitives/active-element"
 import { useLocal } from "@/context/local"
 import { useFile } from "@/context/file"
 import {
-  ContentPart,
-  DEFAULT_PROMPT,
-  isPromptEqual,
-  Prompt,
-  usePrompt,
-  ImageAttachmentPart,
-  AgentPart,
-  FileAttachmentPart,
+ContentPart,
+DEFAULT_PROMPT,
+isPromptEqual,
+Prompt,
+usePrompt,
+ImageAttachmentPart,
+AgentPart,
+FileAttachmentPart,
 } from "@/context/prompt"
 import { useLayout } from "@/context/layout"
 import { useSDK } from "@/context/sdk"
@@ -61,31 +61,31 @@ interface PromptInputProps {
 }
 
 const EXAMPLES = [
-  "prompt.example.1",
-  "prompt.example.2",
-  "prompt.example.3",
-  "prompt.example.4",
-  "prompt.example.5",
-  "prompt.example.6",
-  "prompt.example.7",
-  "prompt.example.8",
-  "prompt.example.9",
-  "prompt.example.10",
-  "prompt.example.11",
-  "prompt.example.12",
-  "prompt.example.13",
-  "prompt.example.14",
-  "prompt.example.15",
-  "prompt.example.16",
-  "prompt.example.17",
-  "prompt.example.18",
-  "prompt.example.19",
-  "prompt.example.20",
-  "prompt.example.21",
-  "prompt.example.22",
-  "prompt.example.23",
-  "prompt.example.24",
-  "prompt.example.25",
+"prompt.example.1",
+"prompt.example.2",
+"prompt.example.3",
+"prompt.example.4",
+"prompt.example.5",
+"prompt.example.6",
+"prompt.example.7",
+"prompt.example.8",
+"prompt.example.9",
+"prompt.example.10",
+"prompt.example.11",
+"prompt.example.12",
+"prompt.example.13",
+"prompt.example.14",
+"prompt.example.15",
+"prompt.example.16",
+"prompt.example.17",
+"prompt.example.18",
+"prompt.example.19",
+"prompt.example.20",
+"prompt.example.21",
+"prompt.example.22",
+"prompt.example.23",
+"prompt.example.24",
+"prompt.example.25",
 ] as const
 
 export const PromptInput: Component<PromptInputProps> = (props) => {
@@ -112,33 +112,33 @@ export const PromptInput: Component<PromptInputProps> = (props) => {
   const mirror = { input: false }
 
   const scrollCursorIntoView = () => {
-    const container = scrollRef
-    const selection = window.getSelection()
-    if (!container || !selection || selection.rangeCount === 0) return
+  const container = scrollRef
+  const selection = window.getSelection()
+  if (!container || !selection || selection.rangeCount === 0) return
 
-    const range = selection.getRangeAt(0)
-    if (!editorRef.contains(range.startContainer)) return
+  const range = selection.getRangeAt(0)
+  if (!editorRef.contains(range.startContainer)) return
 
-    const rect = range.getBoundingClientRect()
-    if (!rect.height) return
+  const rect = range.getBoundingClientRect()
+  if (!rect.height) return
 
-    const containerRect = container.getBoundingClientRect()
-    const top = rect.top - containerRect.top + container.scrollTop
-    const bottom = rect.bottom - containerRect.top + container.scrollTop
-    const padding = 12
+  const containerRect = container.getBoundingClientRect()
+  const top = rect.top - containerRect.top + container.scrollTop
+  const bottom = rect.bottom - containerRect.top + container.scrollTop
+  const padding = 12
 
-    if (top < container.scrollTop + padding) {
-      container.scrollTop = Math.max(0, top - padding)
-      return
-    }
+  if (top < container.scrollTop + padding) {
+  container.scrollTop = Math.max(0, top - padding)
+  return
+  }
 
-    if (bottom > container.scrollTop + container.clientHeight - padding) {
-      container.scrollTop = bottom - container.clientHeight + padding
-    }
+  if (bottom > container.scrollTop + container.clientHeight - padding) {
+  container.scrollTop = bottom - container.clientHeight + padding
+  }
   }
 
   const queueScroll = () => {
-    requestAnimationFrame(scrollCursorIntoView)
+  requestAnimationFrame(scrollCursorIntoView)
   }
 
   const sessionKey = createMemo(() => `${params.dir}${params.id ? "/" + params.id : ""}`)
@@ -196,10 +196,10 @@ export const PromptInput: Component<PromptInputProps> = (props) => {
   })
   const info = createMemo(() => (params.id ? sync.session.get(params.id) : undefined))
   const status = createMemo(
-    () =>
-      sync.data.session_status[params.id ?? ""] ?? {
-        type: "idle",
-      },
+  () =>
+  sync.data.session_status[params.id ?? ""] ?? {
+  type: "idle",
+  },
   )
   const working = createMemo(() => status()?.type !== "idle")
   const imageAttachments = createMemo(() =>
@@ -234,49 +234,49 @@ export const PromptInput: Component<PromptInputProps> = (props) => {
 
   const MAX_HISTORY = 100
   const [history, setHistory] = persisted(
-    Persist.global("prompt-history", ["prompt-history.v1"]),
-    createStore<{
-      entries: Prompt[]
-    }>({
-      entries: [],
-    }),
+  Persist.global("prompt-history", ["prompt-history.v1"]),
+  createStore<{
+  entries: Prompt[]
+  }>({
+  entries: [],
+  }),
   )
   const [shellHistory, setShellHistory] = persisted(
-    Persist.global("prompt-history-shell", ["prompt-history-shell.v1"]),
-    createStore<{
-      entries: Prompt[]
-    }>({
-      entries: [],
-    }),
+  Persist.global("prompt-history-shell", ["prompt-history-shell.v1"]),
+  createStore<{
+  entries: Prompt[]
+  }>({
+  entries: [],
+  }),
   )
 
   const applyHistoryPrompt = (p: Prompt, position: "start" | "end") => {
-    const length = position === "start" ? 0 : promptLength(p)
-    setStore("applyingHistory", true)
-    prompt.set(p, length)
-    requestAnimationFrame(() => {
-      editorRef.focus()
-      setCursorPosition(editorRef, length)
-      setStore("applyingHistory", false)
-      queueScroll()
-    })
+  const length = position === "start" ? 0 : promptLength(p)
+  setStore("applyingHistory", true)
+  prompt.set(p, length)
+  requestAnimationFrame(() => {
+  editorRef.focus()
+  setCursorPosition(editorRef, length)
+  setStore("applyingHistory", false)
+  queueScroll()
+  })
   }
 
   const getCaretState = () => {
-    const selection = window.getSelection()
-    const textLength = promptLength(prompt.current())
-    if (!selection || selection.rangeCount === 0) {
-      return { collapsed: false, cursorPosition: 0, textLength }
-    }
-    const anchorNode = selection.anchorNode
-    if (!anchorNode || !editorRef.contains(anchorNode)) {
-      return { collapsed: false, cursorPosition: 0, textLength }
-    }
-    return {
-      collapsed: selection.isCollapsed,
-      cursorPosition: getCursorPosition(editorRef),
-      textLength,
-    }
+  const selection = window.getSelection()
+  const textLength = promptLength(prompt.current())
+  if (!selection || selection.rangeCount === 0) {
+  return { collapsed: false, cursorPosition: 0, textLength }
+  }
+  const anchorNode = selection.anchorNode
+  if (!anchorNode || !editorRef.contains(anchorNode)) {
+  return { collapsed: false, cursorPosition: 0, textLength }
+  }
+  return {
+  collapsed: selection.isCollapsed,
+  cursorPosition: getCursorPosition(editorRef),
+  textLength,
+  }
   }
 
   const isFocused = createFocusSignal(() => editorRef)
@@ -323,12 +323,12 @@ export const PromptInput: Component<PromptInputProps> = (props) => {
   }
 
   createEffect(() => {
-    params.id
-    if (params.id) return
-    const interval = setInterval(() => {
-      setStore("placeholder", (prev) => (prev + 1) % EXAMPLES.length)
-    }, 6500)
-    onCleanup(() => clearInterval(interval))
+  params.id
+  if (params.id) return
+  const interval = setInterval(() => {
+  setStore("placeholder", (prev) => (prev + 1) % EXAMPLES.length)
+  }, 6500)
+  onCleanup(() => clearInterval(interval))
   })
 
   const [composing, setComposing] = createSignal(false)
@@ -341,36 +341,36 @@ export const PromptInput: Component<PromptInputProps> = (props) => {
   // Safety: reset composing state on focus change to prevent stuck state
   // This handles edge cases where compositionend event may not fire
   createEffect(() => {
-    if (!isFocused()) setComposing(false)
+  if (!isFocused()) setComposing(false)
   })
 
   const agentList = createMemo(() =>
-    sync.data.agent
-      .filter((agent) => !agent.hidden && agent.mode !== "primary")
-      .map((agent): AtOption => ({ type: "agent", name: agent.name, display: agent.name })),
+  sync.data.agent
+  .filter((agent) => !agent.hidden && agent.mode !== "primary")
+  .map((agent): AtOption => ({ type: "agent", name: agent.name, display: agent.name })),
   )
   const agentNames = createMemo(() => local.agent.list().map((agent) => agent.name))
 
   const handleAtSelect = (option: AtOption | undefined) => {
-    if (!option) return
-    if (option.type === "agent") {
-      addPart({ type: "agent", name: option.name, content: "@" + option.name, start: 0, end: 0 })
-    } else {
-      addPart({ type: "file", path: option.path, content: "@" + option.path, start: 0, end: 0 })
-    }
+  if (!option) return
+  if (option.type === "agent") {
+  addPart({ type: "agent", name: option.name, content: "@" + option.name, start: 0, end: 0 })
+  } else {
+  addPart({ type: "file", path: option.path, content: "@" + option.path, start: 0, end: 0 })
+  }
   }
 
   const atKey = (x: AtOption | undefined) => {
-    if (!x) return ""
-    return x.type === "agent" ? `agent:${x.name}` : `file:${x.path}`
+  if (!x) return ""
+  return x.type === "agent" ? `agent:${x.name}` : `file:${x.path}`
   }
 
   const {
-    flat: atFlat,
-    active: atActive,
-    setActive: setAtActive,
-    onInput: atOnInput,
-    onKeyDown: atOnKeyDown,
+  flat: atFlat,
+  active: atActive,
+  setActive: setAtActive,
+  onInput: atOnInput,
+  onKeyDown: atOnKeyDown,
   } = useFilteredList<AtOption>({
     items: async (query) => {
       const agents = agentList()
@@ -402,16 +402,16 @@ export const PromptInput: Component<PromptInputProps> = (props) => {
   })
 
   const slashCommands = createMemo<SlashCommand[]>(() => {
-    const builtin = command.options
-      .filter((opt) => !opt.disabled && !opt.id.startsWith("suggested.") && opt.slash)
-      .map((opt) => ({
-        id: opt.id,
-        trigger: opt.slash!,
-        title: opt.title,
-        description: opt.description,
-        keybind: opt.keybind,
-        type: "builtin" as const,
-      }))
+  const builtin = command.options
+  .filter((opt) => !opt.disabled && !opt.id.startsWith("suggested.") && opt.slash)
+  .map((opt) => ({
+  id: opt.id,
+  trigger: opt.slash!,
+  title: opt.title,
+  description: opt.description,
+  keybind: opt.keybind,
+  type: "builtin" as const,
+  }))
 
     const custom = sync.data.command.map((cmd) => ({
       id: `custom.${cmd.name}`,
@@ -422,7 +422,7 @@ export const PromptInput: Component<PromptInputProps> = (props) => {
       source: cmd.source,
     }))
 
-    return [...custom, ...builtin]
+  return [...custom, ...builtin]
   })
 
   const handleSlashSelect = (cmd: SlashCommand | undefined) => {
@@ -443,12 +443,12 @@ export const PromptInput: Component<PromptInputProps> = (props) => {
   }
 
   const {
-    flat: slashFlat,
-    active: slashActive,
-    setActive: setSlashActive,
-    onInput: slashOnInput,
-    onKeyDown: slashOnKeyDown,
-    refetch: slashRefetch,
+  flat: slashFlat,
+  active: slashActive,
+  setActive: setSlashActive,
+  onInput: slashOnInput,
+  onKeyDown: slashOnKeyDown,
+  refetch: slashRefetch,
   } = useFilteredList<SlashCommand>({
     items: slashCommands,
     key: (x) => x?.id,
@@ -457,23 +457,23 @@ export const PromptInput: Component<PromptInputProps> = (props) => {
   })
 
   const createPill = (part: FileAttachmentPart | AgentPart) => {
-    const pill = document.createElement("span")
-    pill.textContent = part.content
-    pill.setAttribute("data-type", part.type)
-    if (part.type === "file") pill.setAttribute("data-path", part.path)
-    if (part.type === "agent") pill.setAttribute("data-name", part.name)
-    pill.setAttribute("contenteditable", "false")
-    pill.style.userSelect = "text"
-    pill.style.cursor = "default"
-    return pill
+  const pill = document.createElement("span")
+  pill.textContent = part.content
+  pill.setAttribute("data-type", part.type)
+  if (part.type === "file") pill.setAttribute("data-path", part.path)
+  if (part.type === "agent") pill.setAttribute("data-name", part.name)
+  pill.setAttribute("contenteditable", "false")
+  pill.style.userSelect = "text"
+  pill.style.cursor = "default"
+  return pill
   }
 
   const isNormalizedEditor = () =>
-    Array.from(editorRef.childNodes).every((node) => {
-      if (node.nodeType === Node.TEXT_NODE) {
-        const text = node.textContent ?? ""
-        if (!text.includes("\u200B")) return true
-        if (text !== "\u200B") return false
+  Array.from(editorRef.childNodes).every((node) => {
+  if (node.nodeType === Node.TEXT_NODE) {
+  const text = node.textContent ?? ""
+  if (!text.includes("\u200B")) return true
+  if (text !== "\u200B") return false
 
         const prev = node.previousSibling
         const next = node.nextSibling
@@ -506,41 +506,41 @@ export const PromptInput: Component<PromptInputProps> = (props) => {
   }
 
   createEffect(
-    on(
-      () => sync.data.command,
-      () => slashRefetch(),
-      { defer: true },
-    ),
+  on(
+  () => sync.data.command,
+  () => slashRefetch(),
+  { defer: true },
+  ),
   )
 
   // Auto-scroll active command into view when navigating with keyboard
   createEffect(() => {
-    const activeId = slashActive()
-    if (!activeId || !slashPopoverRef) return
+  const activeId = slashActive()
+  if (!activeId || !slashPopoverRef) return
 
-    requestAnimationFrame(() => {
-      const element = slashPopoverRef.querySelector(`[data-slash-id="${activeId}"]`)
-      element?.scrollIntoView({ block: "nearest", behavior: "smooth" })
-    })
+  requestAnimationFrame(() => {
+  const element = slashPopoverRef.querySelector(`[data-slash-id="${activeId}"]`)
+  element?.scrollIntoView({ block: "nearest", behavior: "smooth" })
+  })
   })
 
   const selectPopoverActive = () => {
-    if (store.popover === "at") {
-      const items = atFlat()
-      if (items.length === 0) return
-      const active = atActive()
-      const item = items.find((entry) => atKey(entry) === active) ?? items[0]
-      handleAtSelect(item)
-      return
-    }
+  if (store.popover === "at") {
+  const items = atFlat()
+  if (items.length === 0) return
+  const active = atActive()
+  const item = items.find((entry) => atKey(entry) === active) ?? items[0]
+  handleAtSelect(item)
+  return
+  }
 
-    if (store.popover === "slash") {
-      const items = slashFlat()
-      if (items.length === 0) return
-      const active = slashActive()
-      const item = items.find((entry) => entry.id === active) ?? items[0]
-      handleSlashSelect(item)
-    }
+  if (store.popover === "slash") {
+  const items = slashFlat()
+  if (items.length === 0) return
+  const active = slashActive()
+  const item = items.find((entry) => entry.id === active) ?? items[0]
+  handleSlashSelect(item)
+  }
   }
 
   createEffect(
@@ -566,93 +566,93 @@ export const PromptInput: Component<PromptInputProps> = (props) => {
   )
 
   const parseFromDOM = (): Prompt => {
-    const parts: Prompt = []
-    let position = 0
-    let buffer = ""
+  const parts: Prompt = []
+  let position = 0
+  let buffer = ""
 
-    const flushText = () => {
-      const content = buffer.replace(/\r\n?/g, "\n").replace(/\u200B/g, "")
-      buffer = ""
-      if (!content) return
-      parts.push({ type: "text", content, start: position, end: position + content.length })
-      position += content.length
-    }
+  const flushText = () => {
+  const content = buffer.replace(/\r\n?/g, "\n").replace(/\u200B/g, "")
+  buffer = ""
+  if (!content) return
+  parts.push({ type: "text", content, start: position, end: position + content.length })
+  position += content.length
+  }
 
-    const pushFile = (file: HTMLElement) => {
-      const content = file.textContent ?? ""
-      parts.push({
-        type: "file",
-        path: file.dataset.path!,
-        content,
-        start: position,
-        end: position + content.length,
-      })
-      position += content.length
-    }
+  const pushFile = (file: HTMLElement) => {
+  const content = file.textContent ?? ""
+  parts.push({
+  type: "file",
+  path: file.dataset.path!,
+  content,
+  start: position,
+  end: position + content.length,
+  })
+  position += content.length
+  }
 
-    const pushAgent = (agent: HTMLElement) => {
-      const content = agent.textContent ?? ""
-      parts.push({
-        type: "agent",
-        name: agent.dataset.name!,
-        content,
-        start: position,
-        end: position + content.length,
-      })
-      position += content.length
-    }
+  const pushAgent = (agent: HTMLElement) => {
+  const content = agent.textContent ?? ""
+  parts.push({
+  type: "agent",
+  name: agent.dataset.name!,
+  content,
+  start: position,
+  end: position + content.length,
+  })
+  position += content.length
+  }
 
-    const visit = (node: Node) => {
-      if (node.nodeType === Node.TEXT_NODE) {
-        buffer += node.textContent ?? ""
-        return
-      }
-      if (node.nodeType !== Node.ELEMENT_NODE) return
+  const visit = (node: Node) => {
+  if (node.nodeType === Node.TEXT_NODE) {
+  buffer += node.textContent ?? ""
+  return
+  }
+  if (node.nodeType !== Node.ELEMENT_NODE) return
 
-      const el = node as HTMLElement
-      if (el.dataset.type === "file") {
-        flushText()
-        pushFile(el)
-        return
-      }
-      if (el.dataset.type === "agent") {
-        flushText()
-        pushAgent(el)
-        return
-      }
-      if (el.tagName === "BR") {
-        buffer += "\n"
-        return
-      }
+  const el = node as HTMLElement
+  if (el.dataset.type === "file") {
+  flushText()
+  pushFile(el)
+  return
+  }
+  if (el.dataset.type === "agent") {
+  flushText()
+  pushAgent(el)
+  return
+  }
+  if (el.tagName === "BR") {
+  buffer += "\n"
+  return
+  }
 
-      for (const child of Array.from(el.childNodes)) {
-        visit(child)
-      }
-    }
+  for (const child of Array.from(el.childNodes)) {
+  visit(child)
+  }
+  }
 
-    const children = Array.from(editorRef.childNodes)
-    children.forEach((child, index) => {
-      const isBlock = child.nodeType === Node.ELEMENT_NODE && ["DIV", "P"].includes((child as HTMLElement).tagName)
-      visit(child)
-      if (isBlock && index < children.length - 1) {
-        buffer += "\n"
-      }
-    })
+  const children = Array.from(editorRef.childNodes)
+  children.forEach((child, index) => {
+  const isBlock = child.nodeType === Node.ELEMENT_NODE && ["DIV", "P"].includes((child as HTMLElement).tagName)
+  visit(child)
+  if (isBlock && index < children.length - 1) {
+  buffer += "\n"
+  }
+  })
 
-    flushText()
+  flushText()
 
-    if (parts.length === 0) parts.push(...DEFAULT_PROMPT)
-    return parts
+  if (parts.length === 0) parts.push(...DEFAULT_PROMPT)
+  return parts
   }
 
   const handleInput = () => {
-    const rawParts = parseFromDOM()
-    const images = imageAttachments()
-    const cursorPosition = getCursorPosition(editorRef)
-    const rawText = rawParts.map((p) => ("content" in p ? p.content : "")).join("")
-    const trimmed = rawText.replace(/\u200B/g, "").trim()
-    const hasNonText = rawParts.some((part) => part.type !== "text")
-    const shouldReset = trimmed.length === 0 && !hasNonText && images.length === 0
+  const rawParts = parseFromDOM()
+  const images = imageAttachments()
+  const cursorPosition = getCursorPosition(editorRef)
+  const rawText = rawParts.map((p) => ("content" in p ? p.content : "")).join("")
+  const trimmed = rawText.replace(/\u200B/g, "").trim()
+  const hasNonText = rawParts.some((part) => part.type !== "text")
+  const shouldReset = trimmed.length === 0 && !hasNonText && images.length === 0
 
     if (shouldReset) {
       closePopover()
@@ -665,11 +665,11 @@ export const PromptInput: Component<PromptInputProps> = (props) => {
       return
     }
 
-    const shellMode = store.mode === "shell"
+  const shellMode = store.mode === "shell"
 
-    if (!shellMode) {
-      const atMatch = rawText.substring(0, cursorPosition).match(/@(\S*)$/)
-      const slashMatch = rawText.match(/^\/(\S*)$/)
+  if (!shellMode) {
+  const atMatch = rawText.substring(0, cursorPosition).match(/@(\S*)$/)
+  const slashMatch = rawText.match(/^\/(\S*)$/)
 
       if (atMatch) {
         atOnInput(atMatch[1])
@@ -692,19 +692,19 @@ export const PromptInput: Component<PromptInputProps> = (props) => {
   }
 
   const addPart = (part: ContentPart) => {
-    const selection = window.getSelection()
-    if (!selection || selection.rangeCount === 0) return
+  const selection = window.getSelection()
+  if (!selection || selection.rangeCount === 0) return
 
-    const cursorPosition = getCursorPosition(editorRef)
-    const currentPrompt = prompt.current()
-    const rawText = currentPrompt.map((p) => ("content" in p ? p.content : "")).join("")
-    const textBeforeCursor = rawText.substring(0, cursorPosition)
-    const atMatch = textBeforeCursor.match(/@(\S*)$/)
+  const cursorPosition = getCursorPosition(editorRef)
+  const currentPrompt = prompt.current()
+  const rawText = currentPrompt.map((p) => ("content" in p ? p.content : "")).join("")
+  const textBeforeCursor = rawText.substring(0, cursorPosition)
+  const atMatch = textBeforeCursor.match(/@(\S*)$/)
 
-    if (part.type === "file" || part.type === "agent") {
-      const pill = createPill(part)
-      const gap = document.createTextNode(" ")
-      const range = selection.getRangeAt(0)
+  if (part.type === "file" || part.type === "agent") {
+  const pill = createPill(part)
+  const gap = document.createTextNode(" ")
+  const range = selection.getRangeAt(0)
 
       if (atMatch) {
         const start = atMatch.index ?? cursorPosition - atMatch[0].length
@@ -815,58 +815,58 @@ export const PromptInput: Component<PromptInputProps> = (props) => {
   })
 
   const handleKeyDown = (event: KeyboardEvent) => {
-    if (event.key === "Backspace") {
-      const selection = window.getSelection()
-      if (selection && selection.isCollapsed) {
-        const node = selection.anchorNode
-        const offset = selection.anchorOffset
-        if (node && node.nodeType === Node.TEXT_NODE) {
-          const text = node.textContent ?? ""
-          if (/^\u200B+$/.test(text) && offset > 0) {
-            const range = document.createRange()
-            range.setStart(node, 0)
-            range.collapse(true)
-            selection.removeAllRanges()
-            selection.addRange(range)
-          }
-        }
-      }
-    }
+  if (event.key === "Backspace") {
+  const selection = window.getSelection()
+  if (selection && selection.isCollapsed) {
+  const node = selection.anchorNode
+  const offset = selection.anchorOffset
+  if (node && node.nodeType === Node.TEXT_NODE) {
+  const text = node.textContent ?? ""
+  if (/^\u200B+$/.test(text) && offset > 0) {
+  const range = document.createRange()
+  range.setStart(node, 0)
+  range.collapse(true)
+  selection.removeAllRanges()
+  selection.addRange(range)
+  }
+  }
+  }
+  }
 
-    if (event.key === "!" && store.mode === "normal") {
-      const cursorPosition = getCursorPosition(editorRef)
-      if (cursorPosition === 0) {
-        setStore("mode", "shell")
-        setStore("popover", null)
-        event.preventDefault()
-        return
-      }
-    }
-    if (store.mode === "shell") {
-      const { collapsed, cursorPosition, textLength } = getCaretState()
-      if (event.key === "Escape") {
-        setStore("mode", "normal")
-        event.preventDefault()
-        return
-      }
-      if (event.key === "Backspace" && collapsed && cursorPosition === 0 && textLength === 0) {
-        setStore("mode", "normal")
-        event.preventDefault()
-        return
-      }
-    }
+  if (event.key === "!" && store.mode === "normal") {
+  const cursorPosition = getCursorPosition(editorRef)
+  if (cursorPosition === 0) {
+  setStore("mode", "shell")
+  setStore("popover", null)
+  event.preventDefault()
+  return
+  }
+  }
+  if (store.mode === "shell") {
+  const { collapsed, cursorPosition, textLength } = getCaretState()
+  if (event.key === "Escape") {
+  setStore("mode", "normal")
+  event.preventDefault()
+  return
+  }
+  if (event.key === "Backspace" && collapsed && cursorPosition === 0 && textLength === 0) {
+  setStore("mode", "normal")
+  event.preventDefault()
+  return
+  }
+  }
 
-    // Handle Shift+Enter BEFORE IME check - Shift+Enter is never used for IME input
-    // and should always insert a newline regardless of composition state
-    if (event.key === "Enter" && event.shiftKey) {
-      addPart({ type: "text", content: "\n", start: 0, end: 0 })
-      event.preventDefault()
-      return
-    }
+  // Handle Shift+Enter BEFORE IME check - Shift+Enter is never used for IME input
+  // and should always insert a newline regardless of composition state
+  if (event.key === "Enter" && event.shiftKey) {
+  addPart({ type: "text", content: "\n", start: 0, end: 0 })
+  event.preventDefault()
+  return
+  }
 
-    if (event.key === "Enter" && isImeComposing(event)) {
-      return
-    }
+  if (event.key === "Enter" && isImeComposing(event)) {
+  return
+  }
 
     const ctrl = event.ctrlKey && !event.metaKey && !event.altKey && !event.shiftKey
 
@@ -905,19 +905,37 @@ export const PromptInput: Component<PromptInputProps> = (props) => {
       return
     }
 
-    if (event.key === "ArrowUp" || event.key === "ArrowDown") {
-      if (event.altKey || event.ctrlKey || event.metaKey) return
+    if (event.key === "ArrowUp" || event.key === "ArrowDown" || (event.ctrlKey && event.key === "p") || (event.ctrlKey && event.key === "n")) {
+      if (event.altKey || (event.ctrlKey && event.key !== "p" && event.key !== "n") || event.metaKey) return
       const { collapsed } = getCaretState()
       if (!collapsed) return
 
       const cursorPosition = getCursorPosition(editorRef)
+      const textLength = promptLength(prompt.current())
       const textContent = prompt
         .current()
         .map((part) => ("content" in part ? part.content : ""))
         .join("")
-      const direction = event.key === "ArrowUp" ? "up" : "down"
-      if (!canNavigateHistoryAtCursor(direction, textContent, cursorPosition, store.historyIndex >= 0)) return
-      if (navigateHistory(direction)) {
+      const direction = (event.key === "ArrowUp" || (event.ctrlKey && event.key === "p")) ? "up" : "down"
+      if (!canNavigateHistoryAtCursor(direction, textContent, cursorPosition)) return
+      const isEmpty = textContent.trim() === "" || textLength <= 1
+      const hasNewlines = textContent.includes("\n")
+      const inHistory = store.historyIndex >= 0
+      const atStart = cursorPosition <= (isEmpty ? 1 : 0)
+      const atEnd = cursorPosition >= (isEmpty ? textLength - 1 : textLength)
+      const allowUp = isEmpty || atStart || (!hasNewlines && !inHistory) || (inHistory && atEnd)
+      const allowDown = isEmpty || atEnd || (!hasNewlines && !inHistory) || (inHistory && atStart)
+
+      if (direction === "up") {
+        if (!allowUp) return
+        if (navigateHistory("up")) {
+          event.preventDefault()
+        }
+        return
+      }
+
+      if (!allowDown) return
+      if (navigateHistory("down")) {
         event.preventDefault()
       }
       return

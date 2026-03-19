@@ -22,6 +22,9 @@ import { McpCommand } from "./cli/cmd/mcp"
 import { GithubCommand } from "./cli/cmd/github"
 import { ExportCommand } from "./cli/cmd/export"
 import { ImportCommand } from "./cli/cmd/import"
+import { ExportAllCommand } from "./cli/cmd/export-all"
+import { ImportAllCommand } from "./cli/cmd/import-all"
+import { ListAllCommand } from "./cli/cmd/list-all"
 import { AttachCommand } from "./cli/cmd/tui/attach"
 import { TuiThreadCommand } from "./cli/cmd/tui/thread"
 import { AcpCommand } from "./cli/cmd/acp"
@@ -141,6 +144,9 @@ let cli = yargs(hideBin(process.argv))
   .command(StatsCommand)
   .command(ExportCommand)
   .command(ImportCommand)
+  .command(ExportAllCommand)
+  .command(ImportAllCommand)
+  .command(ListAllCommand)
   .command(GithubCommand)
   .command(PrCommand)
   .command(SessionCommand)

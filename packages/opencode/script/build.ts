@@ -222,6 +222,15 @@ for (const item of targets) {
     },
   })
 
+  // Bun's compiler can produce macOS binaries with a malformed code signature,
+  // which causes macOS to SIGKILL (exit 137) the binary on launch.
+  // Strip the bad signature and re-sign with an ad-hoc signature.
+  if (item.os === "darwin") {
+    const binaryPath = `dist/${name}/bin/opencode`
+    await $`codesign --remove-signature ${binaryPath}`
+    await $`codesign --sign - ${binaryPath}`
+  }
+
   // Smoke test: only run if binary is for current platform
   if (item.os === process.platform && item.arch === process.arch && !item.abi) {
     const binaryPath = `dist/${name}/bin/opencode`

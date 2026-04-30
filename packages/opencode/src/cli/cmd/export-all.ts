@@ -1,12 +1,12 @@
 import type { Argv } from "yargs"
 import { cmd } from "./cmd"
 import { bootstrap } from "../bootstrap"
-import { Database } from "../../storage"
-import { eq, inArray } from "../../storage/db"
-import { ProjectTable } from "../../project/project.sql"
-import { SessionTable, MessageTable, PartTable, TodoTable } from "../../session/session.sql"
-import type { SessionID } from "../../session/schema"
-import type { ProjectID } from "../../project/schema"
+import { Database } from "@/storage/db"
+import { eq, inArray } from "@/storage/db"
+import { ProjectTable } from "@/project/project.sql"
+import { SessionTable, MessageTable, PartTable, TodoTable } from "@/session/session.sql"
+import type { SessionID } from "@/session/schema"
+import type { ProjectID } from "@/project/schema"
 import { EOL } from "os"
 
 interface ExportPart {
